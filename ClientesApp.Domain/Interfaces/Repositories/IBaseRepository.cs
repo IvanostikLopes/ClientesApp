@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -17,8 +18,8 @@ namespace ClientesApp.Domain.Interfaces.Repositories
         Task AddAsync(TEntity entity);
         Task UpdateAsync(TEntity entity);
         Task DeleteAsync(TEntity entity);
-        Task<List<TEntity>> GetManyAsync(Func<TEntity, bool> where);
-        Task<TEntity?> GetOneAsync(Func<TEntity, bool> where);
+        Task<List<TEntity>> GetManyAsync(Expression<Func<TEntity, bool>> where);
+        Task<TEntity?> GetOneAsync(Expression<Func<TEntity, bool>> where);
         Task<TEntity?> GetByIdAsync(TKey id);
     }
 
