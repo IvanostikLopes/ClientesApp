@@ -21,6 +21,7 @@ namespace ClientesApp.Domain.Interfaces.Repositories
         Task<List<TEntity>> GetManyAsync(Expression<Func<TEntity, bool>> where);
         Task<TEntity?> GetOneAsync(Expression<Func<TEntity, bool>> where);
         Task<TEntity?> GetByIdAsync(TKey id);
+        Task<bool> VerifyExistsAsync(Expression<Func<TEntity, bool>> where);
     }
 
 }
