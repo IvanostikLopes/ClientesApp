@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace ClientesApp.Domain.Extensions
 {
-    public static class ClienteDomainServiceExtension
+    public static class DomainServiceExtension
     {
         public static IServiceCollection AddDomainServices(this IServiceCollection services)
         {

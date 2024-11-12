@@ -4,6 +4,7 @@ using FluentValidation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Intrinsics.X86;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,11 +13,18 @@ namespace ClientesApp.Domain.Validations
     public class ClienteValidator : AbstractValidator<Cliente>
     {
         private readonly IClienteRepository _clienteRepository;
+        private Guid? _currentClienteId;
 
         public ClienteValidator(IClienteRepository clienteRepository)
         {
            _clienteRepository = clienteRepository;
             ConfigureRules();
+        }
+
+        //método para receber o ID do cliente
+        public void SetCurrentClienteId(Guid clienteId)
+        {
+            _currentClienteId = clienteId;
         }
 
         private void ConfigureRules()
@@ -43,19 +51,28 @@ namespace ClientesApp.Domain.Validations
                 .MustAsync(BeUniqueCpf).WithMessage("O cpf já está em uso.");
         }
 
+        /*
+        Ajustes:
+        Modificar a classe ClienteValidator da camada de domínio para verificar se um email ou cpf 
+        já está cadastrado e se a ação for uma edição verificar se os mesmos já estão cadastrados 
+        para um cliente diferente do que está sendo atualizado.
+        */
 
         /// <summary>
         /// CancellationToken - permite cancelar em qualquer momento essa thred
         /// </summary>
         private async Task<bool> BeUniqueEmail(string email, CancellationToken cancellationToken)
         {
-            return await _clienteRepository.VerifyExistsAsync(c => c.Email.Equals(email));
+            return !await _clienteRepository.VerifyExistsAsync
+                (c => c.Email.Equals(email) && c.Id != _currentClienteId);
         }
 
         private async Task<bool> BeUniqueCpf(string cpf, CancellationToken cancellationToken)
         {
-            return await _clienteRepository.VerifyExistsAsync(c => c.Cpf.Equals(cpf));
+            return !await _clienteRepository.VerifyExistsAsync
+                (c => c.Cpf.Equals(cpf) && c.Id != _currentClienteId);
         }
+
 
     }
 }

@@ -15,6 +15,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ClientesApp.Application\ClientesApp.Application.csproj" />
+    <ProjectReference Include="..\ClientesApp.Domain\ClientesApp.Domain.csproj" />
+    <ProjectReference Include="..\ClientesApp.Infra.Data.MongoDB\ClientesApp.Infra.Data.MongoDB.csproj" />
     <ProjectReference Include="..\ClientesApp.Infra.Data.SqlServer\ClientesApp.Infra.Data.SqlServer.csproj" />
   </ItemGroup>
 
